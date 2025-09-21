@@ -1,0 +1,67 @@
+Personal Details:
+
+    Full Name (field)
+    Email (field)
+    Phone no (field)
+
+Academic Details
+    year (drop down)
+    scholar no (input-field)
+    branch (drop down)
+
+Club Details:
+    Position Option 1 (drop down)
+    Position Option 2 (drop down)
+
+Upload Details:
+    Resume (file max size 100kb)
+    Remarks (Descriptive Text max 500 words)
+
+year = {
+    0x1123 : {
+        name : 'B.Tech 2028',
+        branches : [
+            'Computer Science and Engineering (Core)',
+            'CSE AI & DS',
+            'CSE Cybersecurity',
+            'CSE Cyber Physical Systems',
+            'Information Technology',
+            'Electronics and Communication Engineering',
+        ],
+        positions :[
+            'Asst. Management Lead',
+            'Asst. PR & Outreach Lead',
+            'Asst. GenAI Lead',
+            'Asst. Cloud Lead',
+            'Asst. Web-Dev Lead',
+            'Asst. AI-ML Lead',
+            'Asst. Data Science Lead',
+            'Asst. Graphic Designer',
+            'Asst. App-Dev Lead',
+            'Event Coordinator',
+            'Content Writer'
+        ]
+    },
+
+    0x1134 : {
+        name : 'B.Tech 2027',
+        branches : [
+            'Computer Science and Engineering',
+            'Electronics and Communication Engineering',
+            'Information Technology'
+        ],
+
+        positions: [
+            'Co-Lead',
+            'Management Lead',
+            'PR & OutReach Lead',
+            'GenAI Lead',
+            'Cloud Lead',
+            'Web-Dev Lead',
+            'AI/ML Lead',
+            'Data Science Lead',
+            'Graphic Designer',
+            'App-Dev Lead'
+        ]
+    }
+}

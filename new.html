@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Smooth Google-style Animation with Spin</title>
+</head>
+
+<body>
+    <div class="animation-container" id="container">
+        <div name="red" class="child-animation child-red-load" id="logo-child-1"></div>
+        <div name="green" class="child-animation child-green-load" id="logo-child-2"></div>
+        <div name="blue" class="child-animation child-blue-load" id="logo-child-3"></div>
+        <div name="yellow" class="child-animation child-yellow-load" id="logo-child-4"></div>
+    </div>
+
+    <script>
+        let children = document.querySelectorAll(".child-animation");
+        let container = document.getElementById("container");
+        let isLoading = true;
+
+        const switch_state = () => {
+            children.forEach((child) => {
+                const colorName = child.getAttribute("name") || "none";
+                child.classList.toggle(`child-${colorName}`);
+                child.classList.toggle(`child-${colorName}-load`);
+            });
+
+            // Toggle spin on the container
+            if (isLoading) {
+                container.classList.remove("spin"); // stop spinning when showing logo
+            } else {
+                container.classList.add("spin");    // spin while loading
+            }
+
+            isLoading = !isLoading;
+        };
+
+        // Start with spinning in loading state
+        container.classList.add("spin");
+
+        // Switch every 4 seconds
+        setInterval(switch_state, 4000);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+/**
+ * Minified by jsDelivr using clean-css v5.3.3.
+ * Original file: /npm/product-sans-webfont@1.0.0/GoogleSans.css
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+@font-face {
+    font-family: GoogleSansRegular;
+    src: url("fonts/GoogleSans-Regular.ttf")
+}
+
+@font-face {
+    font-family: GoogleSansMedium;
+    src: url("fonts/GoogleSans-Medium.ttf")
+}
+
+@font-face {
+    font-family: GoogleSansBold;
+    src: url("fonts/GoogleSans-Bold.ttf")
+}
+
+@font-face {
+    font-family: GoogleSansItalic;
+    src: url("fonts/GoogleSans-Italic.ttf")
+}
+
+@font-face {
+    font-family: GoogleSansBoldItalic;
+    src: url("fonts/GoogleSans-BoldItalic.ttf")
+}
+
+/*# sourceMappingURL=/sm/ffa30285c240b07fa9549ead7f2ae47d6e15ce9cdf7728f6e417852b1eed78e6.map */

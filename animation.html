@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: black;
+            --google-red: #ea4335;
+            --google-green: #34a853;
+            --google-blue: #4285f4;
+            --google-yellow: #f9ab00;
+            --y-translate: 100%;
+        }
+
+        @keyframes move-red {
+            0% {
+                transform: translateY(-50%) translateX(-215%);
+            }
+
+            33.33% {
+                transform: translateY(-100%) translateX(-215%);
+            }
+
+            66.66% {
+                transform: translateY(0%) translateX(-215%);
+            }
+
+            100% {
+                transform: translateY(-50%) translateX(-215%);
+            }
+        }
+
+        @keyframes move-green {
+            0% {
+                transform: translateY(-50%) translateX(-105%);
+            }
+
+            25% {
+                transform: translateY(-100%) translateX(-105%);
+            }
+
+            50% {
+                transform: translateY(0%) translateX(-105%);
+            }
+
+            75% {
+                transform: translateY(-50%) translateX(-105%);
+            }
+
+            100% {
+                transform: translateY(-50%) translateX(-105%);
+            }
+        }
+
+        @keyframes move-blue {
+            0% {
+                transform: translateY(-50%) translateX(5%);
+            }
+
+            25% {
+                transform: translateY(-100%) translateX(5%);
+            }
+
+            50% {
+                transform: translateY(0%) translateX(5%);
+            }
+
+            75% {
+                transform: translateY(-50%) translateX(5%);
+            }
+
+            100% {
+                transform: translateY(-50%) translateX(5%);
+            }
+        }
+
+        @keyframes move-yellow {
+            0% {
+                transform: translateY(-50%) translateX(115%);
+            }
+
+            25% {
+                transform: translateY(-100%) translateX(115%);
+            }
+
+            50% {
+                transform: translateY(0%) translateX(115%);
+            }
+
+            75% {
+                transform: translateY(-50%) translateX(115%);
+            }
+
+            100% {
+                transform: translateY(-50%) translateX(115%);
+            }
+        }
+
+        .animation-container {
+            width: 400px;
+            height: 400px;
+            background-color: azure;
+            position: relative;
+        }
+
+        .child-animation {
+            background-color: var(--google-blue);
+            width: 22.5%;
+            height: 10%;
+            position: absolute;
+            border: solid 2px #0f0f0f;
+            border-radius: 100px;
+            transition-property: width, transform;
+            transition-duration: 3s;
+            transition-timing-function: ease-in;
+            left: 50%;
+            top: 50%;
+        }
+
+        #logo-child-1 {
+            z-index: 100;
+            background-color: var(--google-red);
+            /* transition: width 1s ease; */
+        }
+
+        #logo-child-2 {
+            z-index: 101;
+            background-color: var(--google-green);
+            /* transition: width 1s ease; */
+
+        }
+
+        #logo-child-3 {
+            z-index: 101;
+            background-color: var(--google-blue);
+            /* transition: width 1s ease; */
+
+        }
+
+        #logo-child-4 {
+            z-index: 100;
+            background-color: var(--google-yellow);
+            /* transition: width 1s ease; */
+            /* transform: rotateZ(45deg); */
+        }
+
+        .child-red {
+            transform: translate(-100%, -91.5%) rotateZ(-37.5deg);
+            /* transition: width 1s ease; */
+
+        }
+
+        .child-green {
+            transform: translate(0%, -91.5%) rotateZ(37.5deg);
+            /* transition: width 1s ease; */
+        }
+
+        .child-blue {
+            transform: translate(-100%, -20.5%) rotateZ(37.5deg);
+            /* transition: width 1s ease; */
+        }
+
+        .child-yellow {
+            transform: translate(0%, -20.5%) rotateZ(-37.5deg);
+            /* transition: width 1s ease; */
+            /* transform: translate(-100%, 0); */
+        }
+
+        .child-red-load {
+            width: 10%;
+            height: 10%;
+            transform: translateX(-215%);
+            /* transition: width 1s ease; */
+            animation: move-red 2s ease-out infinite;
+        }
+
+        .child-green-load {
+            width: 10%;
+            height: 10%;
+            transform: translate(-105%, -50%);
+            /* transition: width 1s ease; */
+            animation: move-green 2s ease-out 0.25s infinite;
+        }
+
+        .child-blue-load {
+            width: 10%;
+            height: 10%;
+            transform: translate(5%, -50%);
+            /* transition: width 1s ease; */
+            animation: move-blue 2s ease-out 0.50s infinite;
+        }
+
+        .child-yellow-load {
+            width: 10%;
+            height: 10%;
+            transform: translate(115%, -50%);
+            /* transition: width 1s ease; */
+            animation: move-yellow 2s ease-out 0.75s infinite;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="animation-container">
+        <div name="red" class="child-animation child-red-load" id="logo-child-1"></div>
+        <div name="green" class="child-animation child-green-load" id="logo-child-2"></div>
+        <div name="blue" class="child-animation child-blue-load" id="logo-child-3"></div>
+        <div name="yellow" class="child-animation child-yellow-load" id="logo-child-4"></div>
+    </div>
+
+    <script>
+        let children = document.querySelectorAll(".child-animation");
+        const switch_state = () => {
+            children.forEach((child, idx) => {
+                const colorName = child.getAttribute("name") || "none";
+                console.log(colorName);
+                child.classList.toggle(`child-${colorName}`);
+                child.classList.toggle(`child-${colorName}-load`);
+            })
+        }
+
+        setInterval(switch_state, 4000);
+
+    </script>
+</body>
+
+</html>

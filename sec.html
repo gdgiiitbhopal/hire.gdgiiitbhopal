@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TranslateY Animation Only</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes moveY {
+            0% {
+                transform: translateY(-50%);
+            }
+
+            50% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(-50%);
+            }
+        }
+
+        .animation-container {
+            width: 400px;
+            height: 400px;
+            background-color: azure;
+            position: relative;
+        }
+
+        .child-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10%;
+            height: 10%;
+
+            /* Each one will get its translateX via inline style */
+        }
+
+        .child-animation {
+            width: 90%;
+            height: 90%;
+            border-radius: 100px;
+            border: 2px solid #0f0f0f;
+            transform: translateY(-50%);
+        }
+
+        .red {
+            background-color: #ea4335;
+            animation: moveY 2s ease-in 0s infinite;
+        }
+
+        .green {
+            background-color: #34a853;
+            animation: moveY 2s ease-in 0.1s infinite;
+        }
+
+        .blue {
+            background-color: #4285f4;
+            animation: moveY 2s ease-in 0.2s infinite;
+        }
+
+        .yellow {
+            background-color: #f9ab00;
+            animation: moveY 2s ease-in 0.3s infinite;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="animation-container">
+
+        <!-- RED -->
+        <div class="child-wrapper" style="transform: translateX(-215%);">
+            <div class="child-animation red"></div>
+        </div>
+
+        <!-- GREEN -->
+        <div class="child-wrapper" style="transform: translateX(-105%);">
+            <div class="child-animation green"></div>
+        </div>
+
+        <!-- BLUE -->
+        <div class="child-wrapper" style="transform: translateX(5%);">
+            <div class="child-animation blue"></div>
+        </div>
+
+        <!-- YELLOW -->
+        <div class="child-wrapper" style="transform: translateX(115%);">
+            <div class="child-animation yellow"></div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

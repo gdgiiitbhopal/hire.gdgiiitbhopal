@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GDG Hiring</title>
+    <link href="google-sans.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            font-family: "Google Sans", sans-serif;
+            color: #202124;
+            --google-red: #ea4335;
+            --google-green: #34a853;
+            --google-blue: #4285f4;
+            --google-yellow: #f9ab00;
+        }
+
+        /* Overlay Loader (unchanged) */
+        .overlay {
+            left: 0;
+            top: 0;
+            scroll-behavior: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            height: 100vh;
+            background-color: #ffffff;
+            z-index: 1000;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Navbar */
+        .main-nav {
+            background-color: #ffffff;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #202124;
+            font-weight: 500;
+            font-size: 1.3em;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            gap: 10px;
+        }
+
+        .main-nav img {
+            height: 40px;
+            width: auto;
+        }
+
+        .main-nav span {
+            display: inline-block;
+        }
+
+        /* Section Content as Grid */
+        .section-content {
+            max-width: 900px;
+            margin: 1em auto;
+            padding: 0 1em;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-gap: 1.5em;
+        }
+
+        /* Hero stays full width */
+        .section-content article:first-child {
+            position: relative;
+            padding: 2em;
+            border-radius: 8px;
+            text-align: center;
+            color: white;
+            overflow: hidden;
+            height: 35vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            grid-column: 1 / -1;
+        }
+
+        .section-content article:first-child::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('./back-banner.png');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.8) contrast(1.2) saturate(1.5);
+            z-index: -1;
+            border-radius: 8px;
+        }
+
+        /* Cards */
+        .section-content article:not(:first-child) {
+            background-color: #dfe1e293;
+            padding: 2em;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.40);
+            box-shadow: inset 0 0px 5px rgba(0, 0, 0, 0.18),
+                0 1px 2px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        /* Hover effect – card looks like it lifts slightly */
+        .section-content article:not(:first-child):hover {
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08),
+                0 2px 6px rgba(0, 0, 0, 0.12);
+        }
+
+        .section-content h2 {
+            color: #202124;
+            font-weight: 500;
+            margin-bottom: 1em;
+            font-size: 1.25em;
+        }
+
+        /* Inputs */
+        .section-content input[type="text"],
+        .section-content input[type="email"],
+        .section-content input[type="tel"],
+        .section-content input[type="file"] {
+            width: 80%;
+            padding: 0.7em 1em;
+            margin-bottom: 1em;
+            border-radius: 20px;
+            border: 1px solid #dadce0;
+            font-size: 1em;
+            transition: all 0.2s ease;
+            box-shadow: inset 0 1px 2px rgba(60, 64, 67, 0.1);
+        }
+
+        .section-content input[type="text"]:focus,
+        .section-content input[type="email"]:focus,
+        .section-content input[type="tel"]:focus,
+        .section-content input[type="file"]:focus {
+            outline: none;
+            border: 2px solid #4285f4;
+            box-shadow: 0 1px 3px rgba(66, 133, 244, 0.3);
+        }
+
+        /* Submit Button */
+        .section-content input[type="submit"] {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            padding: 0.8em 2em;
+            font-size: 1em;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(60, 64, 67, 0.15);
+        }
+
+        .section-content input[type="submit"]:hover {
+            background-color: #3367d6;
+            box-shadow: 0 2px 4px rgba(60, 64, 67, 0.2);
+        }
+
+        /* Typing Effect */
+        #typing-text {
+            font-size: 2.5em;
+            font-weight: 500;
+            margin-bottom: 2em;
+            border-right: 2px solid white;
+            animation: blink 1s step-end infinite;
+            color: white;
+            font-family: GoogleSansRegular;
+        }
+
+        @keyframes blink {
+            50% {
+                border-color: transparent;
+            }
+        }
+
+        /* Responsive: 2 cols on desktop, 1 on mobile */
+        @media (min-width: 768px) {
+            .section-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .section-content input[type="text"],
+            .section-content input[type="email"],
+            .section-content input[type="tel"],
+            .section-content input[type="file"] {
+                width: 95%;
+            }
+
+            .main-nav {
+                height: auto;
+                padding: 10px 0;
+                gap: 5px;
+            }
+
+            .main-nav img {
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Overlay Loader -->
+    <div class="overlay">
+        <div class="animation-container" id="container">
+            <div name="red" class="child-animation child-red-load" id="logo-child-1"></div>
+            <div name="green" class="child-animation child-green-load" id="logo-child-2"></div>
+            <div name="blue" class="child-animation child-blue-load" id="logo-child-3"></div>
+            <div name="yellow" class="child-animation child-yellow-load" id="logo-child-4"></div>
+        </div>
+    </div>
+
+    <!-- Navbar with Logo -->
+    <header class="main-nav">
+        <img src="docs.png" alt="GDG Logo">
+        <span>Google Developer Group</span>
+    </header>
+
+    <!-- Main Content -->
+    <section class="section-content">
+
+        <!-- Typing Message -->
+        <article class="club-details">
+            <div class="message-box">
+                <span id="typing-text">We Are Hiring!</span>
+            </div>
+        </article>
+
+        <!-- Personal Details -->
+        <article class="personal-details">
+            <h2>Personal Details</h2>
+            <form>
+                <input type="text" placeholder="Full Name" required><br>
+                <input type="email" placeholder="Email" required><br>
+                <input type="tel" placeholder="Phone Number" required><br>
+            </form>
+        </article>
+
+        <!-- Academic Details -->
+        <article class="academic-details">
+            <h2>Academic Details</h2>
+            <form>
+                <input type="text" placeholder="College/University" required><br>
+                <input type="text" placeholder="Degree" required><br>
+                <input type="text" placeholder="Year" required><br>
+            </form>
+        </article>
+
+        <!-- Upload Documents -->
+        <article class="upload-details">
+            <h2>Upload Documents</h2>
+            <form>
+                <input type="file" accept=".pdf,.doc,.docx"><br><br>
+                <input type="submit" value="Submit">
+            </form>
+        </article>
+
+    </section>
+
+    <!-- Scripts (unchanged) -->
+    <script>
+        let message_element = document.querySelector("#typing-text");
+        let messages = [" We Are Hiring! ", " connect with us "];
+        let msg_index = 0;
+        let direction = 1;
+        let curr_index = 0;
+        const typer = () => {
+            const subStr = messages[curr_index].substring(0, msg_index);
+            msg_index += direction;
+            if (msg_index == messages[curr_index].length || msg_index == 0) {
+                if (msg_index == 0) curr_index = (curr_index + 1) % messages.length;
+                direction = -direction;
+                setTimeout(typer, 2000);
+            } else {
+                setTimeout(typer, 100);
+            }
+            message_element.textContent = subStr;
+        }
+        typer();
+    </script>
+
+    <script>
+        document.body.style.overflow = 'hidden';
+        let children = document.querySelectorAll(".child-animation");
+        let container = document.getElementById("container");
+        let isLoading = true;
+        let loading_finish = false;
+
+        const switch_state = () => {
+            children.forEach((child) => {
+                const colorName = child.getAttribute("name") || "none";
+                child.classList.toggle(`child-${colorName}`);
+                child.classList.toggle(`child-${colorName}-load`);
+            });
+
+            if (isLoading) {
+                container.classList.remove("spin");
+            } else {
+                container.classList.add("spin");
+            }
+
+            isLoading = !isLoading;
+
+            if (loading_finish) {
+                clearInterval(timer);
+                document.body.style.overflow = 'auto';
+                document.querySelector(".overlay").style.display = "none";
+            }
+        };
+
+        setTimeout(() => { loading_finish = true; }, 5000);
+        container.classList.add("spin");
+        const timer = setInterval(switch_state, 1000);
+    </script>
+
+</body>
+
+</html>

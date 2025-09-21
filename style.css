@@ -1,0 +1,96 @@
+.animation-container {
+    width: 400px;
+    height: 400px;
+    background-color: transparent;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.child-animation {
+    width: 22.5%;
+    height: 10%;
+    position: absolute;
+    border: solid 2px #0f0f0f;
+    border-radius: 100px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 1s ease-in-out;
+}
+
+#logo-child-1 {
+    background-color: var(--google-red);
+}
+
+#logo-child-2 {
+    background-color: var(--google-green);
+}
+
+#logo-child-3 {
+    background-color: var(--google-blue);
+}
+
+#logo-child-4 {
+    background-color: var(--google-yellow);
+}
+
+/* ====== Loading state ====== */
+.child-red-load {
+    width: 10%;
+    height: 10%;
+    transform: translate(-215%, -50%);
+}
+
+.child-green-load {
+    width: 10%;
+    height: 10%;
+    transform: translate(-105%, -50%);
+}
+
+.child-blue-load {
+    width: 10%;
+    height: 10%;
+    transform: translate(5%, -50%);
+}
+
+.child-yellow-load {
+    width: 10%;
+    height: 10%;
+    transform: translate(115%, -50%);
+}
+
+/* ====== Logo final state ====== */
+.child-red {
+    transform: translate(-100%, -91.5%) rotateZ(-37.5deg);
+}
+
+.child-green {
+    transform: translate(0%, -91.5%) rotateZ(37.5deg);
+}
+
+.child-blue {
+    transform: translate(-100%, -20.5%) rotateZ(37.5deg);
+}
+
+.child-yellow {
+    transform: translate(0%, -20.5%) rotateZ(-37.5deg);
+}
+
+/* ====== Spin animation only in loading state ====== */
+.spin {
+    animation: spin 0.5s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
