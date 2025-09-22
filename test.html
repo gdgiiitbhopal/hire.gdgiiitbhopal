@@ -158,8 +158,6 @@
         }
 
         .section-content select {
-            -webkit-appearance: none;
-            -moz-appearance: none;
             appearance: none;
             background-color: white;
         }
@@ -216,21 +214,6 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-
-        @media (max-width: 768px) {
-
-            .section-content input,
-            .section-content select,
-            .section-content textarea {
-                width: 100%;
-            }
-
-            .main-nav {
-                height: auto;
-                padding: 10px 0;
-                gap: 5px;
-            }
-        }
     </style>
 </head>
 
@@ -279,7 +262,7 @@
             </select>
         </article>
 
-        <!-- Club Details -->
+        <!-- Club + Portfolio Details -->
         <article>
             <h2>Club Details</h2>
             <select id="position1" required>
@@ -288,17 +271,21 @@
             <select id="position2" required>
                 <option value="">Position Option 2</option>
             </select>
-            <h2>Portfolio Links</h2>
-            <input type="url" id="linkedin_details" placeholder="LinkedIn Profile (Required)">
-            <input type="url" id="portfolio_details" placeholder="GitHub/GitLab/Portfolio (Web/App Dev)">
             <textarea id="remarks" maxlength="500" placeholder="Why should we hire you? (max 500 words)"></textarea>
+
+            <h2>Portfolio Links</h2>
+            <input type="url" id="linkedin" placeholder="LinkedIn Profile (Required)">
+            <input type="url" id="github" placeholder="GitHub/GitLab (Web/App Dev)">
+            <input type="url" id="kaggle" placeholder="Kaggle/ORCID/Portfolio (AI/ML/GenAI)">
+            <input type="url" id="designer_portfolio" placeholder="Designer Portfolio (Designers)">
+            <input type="url" id="social_handle" placeholder="Social Handle (Social Media Lead)">
         </article>
 
         <!-- Upload Details -->
         <article>
             <h2>Upload Your Resume</h2>
-            <p>Max 300KiB</p>
-            <input type="file" id="resume" accept=".pdf,.doc,.docx" required placeholder="max 100kb">
+            <p>Max 100KiB</p>
+            <input type="file" id="resume" accept=".pdf,.doc,.docx" required>
 
             <input type="submit" value="Submit" id="submitBtn">
         </article>
@@ -326,37 +313,6 @@
         typer();
     </script>
 
-    <!-- Loader -->
-    <script>
-        document.body.style.overflow = 'hidden';
-        let children = document.querySelectorAll(".child-animation");
-        let container = document.getElementById("container");
-        let isLoading = true;
-        let loading_finish = false;
-
-        const switch_state = () => {
-            children.forEach((child) => {
-                const colorName = child.getAttribute("name") || "none";
-                child.classList.toggle(`child-${colorName}`);
-                child.classList.toggle(`child-${colorName}-load`);
-            });
-            if (isLoading) container.classList.remove("spin");
-            else container.classList.add("spin");
-            isLoading = !isLoading;
-
-            if (loading_finish) {
-                clearInterval(timer);
-                document.body.style.overflow = 'auto';
-                document.querySelector(".overlay").style.display = "none";
-            }
-        };
-
-        setTimeout(() => { loading_finish = true; }, 5000);
-        container.classList.add("spin");
-        const timer = setInterval(switch_state, 1000);
-    </script>
-
-    <!-- Dynamic Dropdowns & Validations -->
     <script>
         const yearData = {
             2024: {
@@ -381,11 +337,14 @@
         const scholarInput = document.getElementById("scholar");
         const remarksInput = document.getElementById("remarks");
         const phoneInput = document.getElementById("phone");
-        const linkedIn = document.getElementById("linkedin_details");
-        const portfolio = document.getElementById("portfolio_details");
         const submitBtn = document.getElementById("submitBtn");
 
-        // Populate years
+        const linkedinInput = document.getElementById("linkedin");
+        const githubInput = document.getElementById("github");
+        const kaggleInput = document.getElementById("kaggle");
+        const designerInput = document.getElementById("designer_portfolio");
+        const socialInput = document.getElementById("social_handle");
+
         Object.keys(yearData).forEach(key => {
             const opt = document.createElement("option");
             opt.value = key;
@@ -393,7 +352,6 @@
             yearSelect.appendChild(opt);
         });
 
-        // Update branches & positions
         yearSelect.addEventListener("change", e => {
             const val = e.target.value;
             branchSelect.innerHTML = '<option value="">Select Branch</option>';
@@ -419,21 +377,18 @@
             }
         });
 
-        // Exclusive positions
         function syncPositions(changed, other) {
             const selected = changed.value;
             [...other.options].forEach(opt => {
                 opt.hidden = (opt.value && opt.value === selected);
             });
         }
-        pos1.addEventListener("change", () => syncPositions(pos1, pos2));
-        pos2.addEventListener("change", () => syncPositions(pos2, pos1));
+        pos1.addEventListener("change", () => { syncPositions(pos1, pos2); updatePortfolioRequirements(); });
+        pos2.addEventListener("change", () => { syncPositions(pos2, pos1); updatePortfolioRequirements(); });
 
-        // Validation
         const namePattern = /^[A-Za-z ]+$/;
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const scholarPattern = /^(23|24)[UP]\d+$/i;
-        const linkedInPattern = /^https:\/\/(www\.)?linkedin\.com\/.+$/;
 
         function validateInput(input, pattern) {
             if (input.value.trim() === "") {
@@ -449,15 +404,38 @@
             }
         }
 
+        function validateURL(input, required = false) {
+            if (!input.value.trim() && !required) {
+                input.style.borderColor = "#dadce0";
+                return true;
+            }
+            try {
+                new URL(input.value.trim());
+                input.style.borderColor = "#4285f4";
+                return true;
+            } catch {
+                input.style.borderColor = "red";
+                return false;
+            }
+        }
+
+        function updatePortfolioRequirements() {
+            const selectedPositions = [pos1.value, pos2.value].map(p => p.toLowerCase());
+            linkedinInput.required = true;
+            githubInput.required = selectedPositions.some(p => p.includes("web-dev") || p.includes("app-dev"));
+            kaggleInput.required = selectedPositions.some(p => p.includes("ai") || p.includes("genai"));
+            designerInput.required = selectedPositions.some(p => p.includes("graphic designer"));
+            socialInput.required = selectedPositions.some(p => p.includes("pr") || p.includes("outreach"));
+        }
+
         nameInput.addEventListener('input', () => validateInput(nameInput, namePattern));
         emailInput.addEventListener('input', () => validateInput(emailInput, emailPattern));
         scholarInput.addEventListener('input', () => validateInput(scholarInput, scholarPattern));
-        linkedIn.addEventListener('input', () => validateInput(linkedIn, linkedInPattern));
-        // File check
+
         resume.addEventListener("change", e => {
             const file = resume.files[0];
-            if (file && file.size > 300 * 1024) {
-                alert("Resume must be ≤ 300KB");
+            if (file && file.size > 100 * 1024) {
+                alert("Resume must be ≤ 100KB");
                 resume.value = "";
                 resume.style.borderColor = "red";
             } else if (file) {
@@ -465,59 +443,25 @@
             }
         });
 
-        function updatePortfolioRequirement() {
-            const selectedPositions = [pos1.value, pos2.value].map(v => v.toLowerCase());
-            if (selectedPositions.some(p => p.includes("web-dev") || p.includes("app-dev") || p.includes("ai") || p.includes("ml"))) {
-                portfolio.required = true;
-                portfolio.placeholder = "GitHub/GitLab/Portfolio (Required)";
-            } else {
-                portfolio.required = false;
-                portfolio.placeholder = "GitHub/GitLab/Portfolio (Optional)";
-            }
-        }
-        pos1.addEventListener("change", updatePortfolioRequirement);
-        pos2.addEventListener("change", updatePortfolioRequirement);
-        updatePortfolioRequirement();
-        // Submit: no form, just alert
         submitBtn.addEventListener('click', async e => {
             e.preventDefault();
-
-            // Validate inputs
             let validName = validateInput(nameInput, namePattern);
             let validEmail = validateInput(emailInput, emailPattern);
             let validScholar = validateInput(scholarInput, scholarPattern);
-            let validLinkedIn = validateInput(linkedIn, linkedInPattern);
+            let validLinkedIn = validateURL(linkedinInput, true);
+            let validGitHub = validateURL(githubInput, githubInput.required);
+            let validKaggle = validateURL(kaggleInput, kaggleInput.required);
+            let validDesigner = validateURL(designerInput, designerInput.required);
+            let validSocial = validateURL(socialInput, socialInput.required);
+
             let resumeFile = resume.files[0];
-            if (!validName || !validEmail || !validScholar || !resumeFile || !validLinkedIn || resumeFile.size > 300 * 1024) {
+            if (!validName || !validEmail || !validScholar || !validLinkedIn ||
+                !validGitHub || !validKaggle || !validDesigner || !validSocial ||
+                !resumeFile || resumeFile.size > 100 * 1024) {
                 alert("Please fix errors before submitting!");
                 return;
             }
 
-            // Show overlay loader
-            const overlay = document.querySelector(".overlay");
-
-            overlay.classList.remove("overlay");
-            overlay.classList.add("overlay-dim");
-
-            overlay.style.display = "flex";
-            overlay.style.background = "transparent";
-            document.body.style.overflow = "hidden";
-
-            // Keep loader spinning like on page load
-            let loading_finish = false;
-            let isLoading = true;
-            const switch_state = () => {
-                children.forEach((child) => {
-                    const colorName = child.getAttribute("name") || "none";
-                    child.classList.toggle(`child-${colorName}`);
-                    child.classList.toggle(`child-${colorName}-load`);
-                });
-                if (isLoading) container.classList.remove("spin");
-                else container.classList.add("spin");
-                isLoading = !isLoading;
-            };
-            const timer = setInterval(switch_state, 1000);
-            // Prepare form data
             const formData = new FormData();
             formData.append("full_name", nameInput.value.trim());
             formData.append("email", emailInput.value.trim());
@@ -528,85 +472,28 @@
             formData.append("position1", pos1.value);
             formData.append("position2", pos2.value);
             formData.append("remarks", remarksInput.value.trim());
+            formData.append("linkedin", linkedinInput.value.trim());
+            formData.append("github", githubInput.value.trim());
+            formData.append("kaggle", kaggleInput.value.trim());
+            formData.append("designer_portfolio", designerInput.value.trim());
+            formData.append("social_handle", socialInput.value.trim());
             formData.append("resume", resumeFile);
-            formData.append("linkedin", linkedIn.value.trim());
-            formData.append("portfolio", portfolio.value.trim());
 
             try {
-                const response = await fetch("https://gdgiiitbhpl.pythonanywhere.com/submit", {
+                const response = await fetch("https://script.google.com/macros/s/YOUR-SCRIPT-ID/exec", {
                     method: "POST",
                     body: formData
                 });
-
-                const data = await response.json();
-
-                // Stop loader animation
-                clearInterval(timer);
-
-                overlay.classList.add("overlay");
-                overlay.classList.remove("overlay-dim");
-
-                // Show response popup
-                const popup = document.createElement("div");
-                popup.style.position = "absolute";
-                popup.style.top = "50%";
-                popup.style.left = "50%";
-                popup.style.transform = "translate(-50%, -50%)";
-                popup.style.padding = "2em";
-                popup.style.background = "#fff";
-                popup.style.border = "2px solid #4285f4";
-                popup.style.borderRadius = "10px";
-                popup.style.boxShadow = "0 2px 10px rgba(0,0,0,0.3)";
-                popup.style.zIndex = 2000;
-                popup.style.textAlign = "center";
-
-                const msg = document.createElement("p");
-                msg.textContent = data.status === "success" ? "Submission Successful!" : `Error: ${data.message}`;
-                popup.appendChild(msg);
-
-                const okBtn = document.createElement("button");
-                okBtn.textContent = "OK";
-                okBtn.style.marginTop = "1em";
-                okBtn.style.padding = "0.5em 1em";
-                okBtn.style.border = "none";
-                okBtn.style.backgroundColor = "#4285f4";
-                okBtn.style.color = "#fff";
-                okBtn.style.borderRadius = "5px";
-                okBtn.style.cursor = "pointer";
-
-                okBtn.addEventListener("click", () => {
-                    popup.remove();
-                    overlay.style.display = "none";
-                    document.body.style.overflow = "auto";
-
-                    if (data.status === "success") {
-                        message_element.textContent = "Thank you, We Will Contact Soon";
-                        // Reset form
-                        nameInput.value = "";
-                        emailInput.value = "";
-                        phoneInput.value = "";
-                        scholarInput.value = "";
-                        yearSelect.value = "";
-                        branchSelect.innerHTML = '<option value="">Select Branch</option>';
-                        pos1.innerHTML = '<option value="">Position Option 1</option>';
-                        pos2.innerHTML = '<option value="">Position Option 2</option>';
-                        remarksInput.value = "";
-                        resume.value = "";
-                    }
-                });
-
-                popup.appendChild(okBtn);
-                overlay.appendChild(popup);
-
-            } catch (err) {
-                clearInterval(timer);
-                overlay.style.display = "none";
-                document.body.style.overflow = "auto";
-                console.error(err);
-                alert("Server error. Check console for details.");
+                if (response.ok) {
+                    alert("Form submitted successfully!");
+                    document.querySelector("form")?.reset();
+                } else {
+                    alert("Failed to submit the form!");
+                }
+            } catch (error) {
+                alert("Error submitting the form!");
             }
         });
-
     </script>
 </body>
 
